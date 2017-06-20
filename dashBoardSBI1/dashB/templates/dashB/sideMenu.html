@@ -26,11 +26,17 @@
               <div class="menu_section">
                 <h3>Applications</h3>
                 <ul class="nav side-menu">
-                  <li><a href="#">Outward</a></li>
+                  <li><a>Outward<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                    {% for app in outward %}
+                      <li><a href="/dashb/outward/{{app.Currency}}/{{app.id}}.html/">{{app.Currency}}</a></li>
+                    {% endfor %}
+                    </ul>
+                  </li>
                   <li><a>Inward<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                     {% for app in inward %}
-                      <li><a href="#">{{app.App_name}}</a></li>
+                      <li><a href="/dashb/inward/{{app.App_name}}/{{app.id}}.html/">{{app.App_name}}</a></li>
                     {% endfor %}
                     </ul>                    
                   </li>
