@@ -98,6 +98,26 @@
               </div>
             </div>
 
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="dashboard_graph">
+
+                <div class="row x_title">
+                  <div class="col-md-6">
+                    <h3>Beneficiary Amount in INR</h3>
+                  </div>
+                </div>
+
+                <div class="col-md-12 col-sm-9 col-xs-12">
+                  <div id="chart_plot_05" class="demo-placeholder"></div>
+                </div>
+
+                <div class="clearfix"></div>
+              </div>
+            </div>
+
         <footer>
           <div class="pull-right">
             SBI SP-2 
@@ -163,6 +183,11 @@
         var e = [
             {% for o in outwardData %}
                 [gd({{o.Date|date:"Y , m, d"}}), {{o.Service_tax}}],
+            {% endfor %}
+        ];
+        var f = [
+            {% for o in outwardData %}
+                [gd({{o.Date|date:"Y , m, d"}}), {{o.BeneficiaryAmountINR}}],
             {% endfor %}
         ];
         var h = {
@@ -236,6 +261,16 @@
                 fillColor: "#fff"
             }
         }], h)), 
+        $("#chart_plot_05").length && (console.log("Plot5"), $.plot($("#chart_plot_05"), [{
+            label: "Beneficiary Amount in INR",
+            data: f,
+            lines: {
+                fillColor: "rgba(129, 120, 102, 0.12)"
+            },
+            points: {
+                fillColor: "#aaf"
+            }
+        }], h)),
         $("#chart_plot_04").length && (console.log("Plot4"), $.plot($("#chart_plot_04"), [{
             label: "Service Tax",
             data: e,
