@@ -66,7 +66,7 @@
 
                 <div class="row x_title">
                   <div class="col-md-6">
-                    <h3>Outward Remitance</h3>
+                    <h3>Commission Amount</h3>
                   </div>
                 </div>
 
@@ -86,7 +86,7 @@
 
                 <div class="row x_title">
                   <div class="col-md-6">
-                    <h3>Inward Remitance</h3>
+                    <h3>Service Tax</h3>
                   </div>
                 </div>
 
@@ -156,13 +156,13 @@
     if ("undefined" != typeof $.plot) {
         console.log("init_flot_chart");
         var d = [
-            {% for o in o_comm_months %}
-                [gd({{o.Date|date:"Y , m, d"}}), {{o.cAmt}}],
+            {% for o in outwardData %}
+                [gd({{o.Date|date:"Y , m, d"}}), {{o.commissionAmt}}],
             {% endfor %}
         ];
         var e = [
-            {% for i in i_comm_months %}
-                [gd({{i.Date|date:"Y , m, d"}}), {{i.cAmt}}],
+            {% for o in outwardData %}
+                [gd({{o.Date|date:"Y , m, d"}}), {{o.Service_tax}}],
             {% endfor %}
         ];
         var h = {
@@ -227,7 +227,7 @@
                 }
             };
         $("#chart_plot_02").length && (console.log("Plot2"), $.plot($("#chart_plot_02"), [{
-            label: "Outward Remitance",
+            label: "Commission Amount",
             data: d,
             lines: {
                 fillColor: "rgba(89, 150, 202, 0.12)"
@@ -237,7 +237,7 @@
             }
         }], h)), 
         $("#chart_plot_04").length && (console.log("Plot4"), $.plot($("#chart_plot_04"), [{
-            label: "Inward Remitance",
+            label: "Service Tax",
             data: e,
             lines: {
                 fillColor: "rgba(150, 202, 89, 0.12)"

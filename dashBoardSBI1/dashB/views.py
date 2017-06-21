@@ -21,9 +21,12 @@ def index(request):
 	return render(request,"dashB/index.html",{"outward":o_apps,"inward":i_apps,"o_comm":o_comm,"i_comm":i_comm,"o_comm_months":o_comm_months,"o_amt":o_amt,"i_comm_months":i_comm_months,"i_amt":i_amt})
 
 def outward_view(request,id):
-	i_apps = Inward.objects.all()
+	# i_apps = Inward.objects.all()
+	i_apps = Inward.objects.all().order_by('-id')
 	o_apps = Outward.objects.all().order_by('-id')
-	return render(request,"dashB/outward.html",{"outward":o_apps,"inward":i_apps})
+	o_data = OutwardData.objects.filter(curr__pk=id)
+
+	return render(request,"dashB/outward.html",{"outward":o_apps,"inward":i_apps,"outwardData":o_data})
 
 def inward_view(request,id):
 	i_apps = Inward.objects.all()
