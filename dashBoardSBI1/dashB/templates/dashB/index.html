@@ -40,24 +40,24 @@
           <div class="row tile_count">
 
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"> Outward Commission</span>
-              <div class="count">{{o_comm}}</div>
-              
+              <span class="count_top"> Outward Commission(INR)</span>
+              <div class="count">{{list_of_values.0}}</div>
+              <span class="count_bottom">{{list_of_values.4|safe}}</span>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top">Outward Amount</span>
-              <div class="count green">{{o_amt}}</div>
-              
+              <span class="count_top">Outward Amount(INR)</span>
+              <div class="count">{{list_of_values.1}}<small></small></div>
+              <span class="count_bottom">{{list_of_values.5|safe}}</span>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top">Inward Commission</span>
-              <div class="count">{{i_comm}}</div>
-              
+              <span class="count_top">Inward Commission(INR)</span>
+              <div class="count">{{list_of_values.2}}</div>
+              <span class="count_bottom">{{list_of_values.6|safe}}</span>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top">Inward Amount</span>
-              <div class="count">{{i_amt}}</div>
-              
+              <span class="count_top">Inward Amount(INR)</span>
+              <div class="count">{{list_of_values.3}}</div>
+              <span class="count_bottom">{{list_of_values.7|safe}}</span>
             </div>
           </div>
           <div class="row">
@@ -98,14 +98,17 @@
               </div>
             </div>
 
+
+          </div>
+          <div class="row">
+              
+          </div>
         <footer>
           <div class="pull-right">
             SBI SP-2 
           </div>
           <div class="clearfix"></div>
         </footer>
-
-          </div>
 
 </div>
 
@@ -227,7 +230,7 @@
                 }
             };
         $("#chart_plot_02").length && (console.log("Plot2"), $.plot($("#chart_plot_02"), [{
-            label: "Outward Remitance",
+            label: "Outward Commission",
             data: d,
             lines: {
                 fillColor: "rgba(89, 150, 202, 0.12)"
@@ -237,7 +240,7 @@
             }
         }], h)), 
         $("#chart_plot_04").length && (console.log("Plot4"), $.plot($("#chart_plot_04"), [{
-            label: "Inward Remitance",
+            label: "Inward Commission",
             data: e,
             lines: {
                 fillColor: "rgba(150, 202, 89, 0.12)"

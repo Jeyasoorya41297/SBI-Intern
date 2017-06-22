@@ -33,71 +33,53 @@
    <div class="container body">
    <div class="main_container">
     {% include "./sideMenu.html" %}  
-
-        <!-- page content -->
+    {% load dashB_extras %}
 <div class="right_col" role="main">
     <h3>GLS Applications</h3>
-          <div class="row tile_count">
+    <div class="">
+    <div class="row">
+              <!-- line graph -->
+              <form action="/dashb/inward/{{app.App_name}}/{{app.id}}.html/" method="post" class="form-horizontal form-label-left input_mask">
+              <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="id_ch_of_graph">Choose Graph</label>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                          <select id="id_ch_of_graph" name="ch_of_graph" class="form-control">
+                            <option value="Nothing">Choose an Option</option>
+                            <option value="amount">Amount</option>
+                            <option value="amountINR">Amount in INR</option>
+                            <option value="GLS_commission">GLS Commission</option>
+                            <option value="Ex_commission">Exchange Commission</option>
+                            <option value="Service_tax">Service Tax</option>
+                          </select>
+                        </div>
+                        <div class="col-md-2 col-sm-3 col-xs-12">
+                          <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                      </div>
+                </form>
 
-            <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"> Outward Commission</span>
-              <div class="count">{{o_comm}}</div>
-              
-            </div>
-            <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top">Outward Amount</span>
-              <div class="count green">{{o_amt}}</div>
-              
-            </div>
-            <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top">Inward Commission</span>
-              <div class="count">{{i_comm}}</div>
-              
-            </div>
-            <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top">Inward Amount</span>
-              <div class="count">{{i_amt}}</div>
-              
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="dashboard_graph">
-
-                <div class="row x_title">
-                  <div class="col-md-6">
-                    <h3>Outward Remitance</h3>
+              <div class="col-md-12 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>{{sel_field}}</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content2">
+                    <div id="graph_line" style="width:100%; height:500px;"></div>
                   </div>
                 </div>
-
-                <div class="col-md-12 col-sm-9 col-xs-12">
-                  <div id="chart_plot_02" class="demo-placeholder"></div>
-                </div>
-
-                <div class="clearfix"></div>
               </div>
-            </div>
-
-          </div>
-          <br>
-          <div class="row">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-              <div class="dashboard_graph">
-
-                <div class="row x_title">
-                  <div class="col-md-6">
-                    <h3>Inward Remitance</h3>
-                  </div>
-                </div>
-
-                <div class="col-md-12 col-sm-9 col-xs-12">
-                  <div id="chart_plot_04" class="demo-placeholder"></div>
-                </div>
-
-                <div class="clearfix"></div>
-              </div>
-            </div>
-
+              <!-- /line graph -->        
+    </div>
+        
+    </div>
+    </div>
         <footer>
           <div class="pull-right">
             SBI SP-2 
@@ -105,10 +87,8 @@
           <div class="clearfix"></div>
         </footer>
 
-          </div>
-
 </div>
-
+</div>
     <!-- jQuery -->
     <script src="/static/vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -152,103 +132,37 @@
     <!-- Custom Theme Scripts -->
     <script src="/static/build/js/custom.min.js"></script>
 <script type="text/javascript">
-    function init_flot_chart() {
-    if ("undefined" != typeof $.plot) {
-        console.log("init_flot_chart");
-        var d = [
-            {% for o in o_comm_months %}
-                [gd({{o.Date|date:"Y , m, d"}}), {{o.cAmt}}],
-            {% endfor %}
-        ];
-        var e = [
-            {% for i in i_comm_months %}
-                [gd({{i.Date|date:"Y , m, d"}}), {{i.cAmt}}],
-            {% endfor %}
-        ];
-        var h = {
-                grid: {
-                    show: !0,
-                    aboveData: !0,
-                    color: "#3f3f3f",
-                    labelMargin: 10,
-                    axisMargin: 0,
-                    borderWidth: 0,
-                    borderColor: null,
-                    minBorderMargin: 5,
-                    clickable: !0,
-                    hoverable: !0,
-                    autoHighlight: !0,
-                    mouseActiveRadius: 100
-                },
-                series: {
-                    lines: {
-                        show: !0,
-                        fill: !0,
-                        lineWidth: 2,
-                        steps: !1
-                    },
-                    points: {
-                        show: !0,
-                        radius: 4.5,
-                        symbol: "circle",
-                        lineWidth: 3
-                    }
-                },
-                legend: {
-                    position: "ne",
-                    margin: [0, -25],
-                    noColumns: 0,
-                    labelBoxBorderColor: null,
-                    labelFormatter: function(a, b) {
-                        return a + "&nbsp;&nbsp;"
-                    },
-                    width: 40,
-                    height: 1
-                },
-                colors: ["#96CA59", "#3F97EB", "#72c380", "#6f7a8a", "#f7cb38", "#5a8022", "#2c7282"],
-                shadowSize: 0,
-                tooltip: !0,
-                tooltipOpts: {
-                    content: "%s: %y.0",
-                    xDateFormat: "%d/%m",
-                    shifts: {
-                        x: -30,
-                        y: -50
-                    },
-                    defaultTheme: !1
-                },
-                yaxis: {
-                    min: 0
-                },
-                xaxis: {
-                    mode: "time",
-                    minTickSize: [1, "month"],
-                    timeformat: "%m/%Y",
-                }
-            };
-        $("#chart_plot_02").length && (console.log("Plot2"), $.plot($("#chart_plot_02"), [{
-            label: "Outward Remitance",
-            data: d,
-            lines: {
-                fillColor: "rgba(89, 150, 202, 0.12)"
-            },
-            points: {
-                fillColor: "#fff"
+        function init_morris_charts() {
+            
+            if( typeof (Morris) === 'undefined'){ return; }
+            console.log('init_morris_charts');
+                        
+            if ($('#graph_line').length ){
+            
+                Morris.Line({
+                  element: 'graph_line',
+                  xkey: 'month',
+                  ykeys: ['value'],
+                  labels: ['{{sel_field}}'],
+                  xLabels : "month",
+                  hideHover: 'auto',
+                  lineColors: ['#26B99A', '#34495E', '#ACADAC', '#3498DB'],
+                  data: [
+                  {% for d in data %}
+                    {month: '{{d.Date|date:"Y-m"}}', value: {{ d|return_item:sel_field }} },
+                  {% endfor %}
+                  ],
+                  resize: true
+                });
+
+                $MENU_TOGGLE.on('click', function() {
+                  $(window).resize();
+                });
+            
             }
-        }], h)), 
-        $("#chart_plot_04").length && (console.log("Plot4"), $.plot($("#chart_plot_04"), [{
-            label: "Inward Remitance",
-            data: e,
-            lines: {
-                fillColor: "rgba(150, 202, 89, 0.12)"
-            },
-            points: {
-                fillColor: "#fff"
-            }
-        }], h))
-    }
-}
-init_flot_chart();
+            
+        };
+init_morris_charts();
 </script>
 </body>
 </html>
