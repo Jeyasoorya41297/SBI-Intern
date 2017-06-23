@@ -70,12 +70,17 @@ def outward_view(request,id):
 			sel_field = request.POST['ch_of_graph']
 			x_data = list(OutwardData.objects.filter(curr__id=id).order_by("Date").values("Date",request.POST['ch_of_graph']))
 			print(x_data)
+		else :
+			form = Ograph()
+			sel_field='BeneficiaryAmount'
+			x_data = list(OutwardData.objects.filter(curr__id=id).order_by("Date").values("Date",'BeneficiaryAmount'))
 
 	else :
 		form = Ograph()
 		sel_field='BeneficiaryAmount'
 		x_data = list(OutwardData.objects.filter(curr__id=id).order_by("Date").values("Date",'BeneficiaryAmount'))
-
+	if len(x_data)>7 :
+		x_data = x_data[-7:]
 	return render(request,"dashB/outward.html",{"outward":o_apps,"inward":i_apps,"data":x_data,"form":form,"curr":selected_curr,"sel_field":sel_field})
 
 @csrf_exempt
@@ -93,13 +98,54 @@ def inward_view(request,id):
 			form = Igraph()
 			sel_field='amountINR'
 			x_data = list(InwardData.objects.filter(App__id=id).order_by("Date").values("Date",'amountINR'))
-			
+
 	else :
 		form = Igraph()
 		sel_field='amountINR'
 		x_data = list(InwardData.objects.filter(App__id=id).order_by("Date").values("Date",'amountINR'))
-
+	
+	if len(x_data)>7 :
+		x_data = x_data[-7:]
 	return render(request,"dashB/inward.html",{"outward":o_apps,"inward":i_apps,"data":x_data,"form":form,"app":selected_app,"sel_field":sel_field})
+
+@csrf_exempt
+def compOut_view(request) :
+	i_apps = Inward.objects.all()
+	o_apps = Outward.objects.all()
+	if request.method=='POST':
+		form = compout(request.POST)
+		if form.is_valid():
+			sel_field = request.POST['ch_of_graph']
+			x_data = list(OutwardData.objects.values('curr__Currency').annotate(x_val=Sum(sel_field)))
+		else:
+			form = compout()
+			sel_field = 'BeneficiaryAmountINR'
+			x_data = list(OutwardData.objects.values('curr__Currency').annotate(x_val=Sum(sel_field)))
+	else:
+		form = compout()
+		sel_field = 'BeneficiaryAmountINR'
+		x_data = list(OutwardData.objects.values('curr__Currency').annotate(x_val=Sum(sel_field)))
+	return render(request,"dashB/compout.html",{"outward":o_apps,"inward":i_apps,"sel_field":sel_field,"x_data":x_data})
+
+@csrf_exempt
+def compIn_view(request) :
+	i_apps = Inward.objects.all()
+	o_apps = Outward.objects.all()
+	if request.method=='POST':
+		form = compin(request.POST)
+		if form.is_valid():
+			sel_field = request.POST['ch_of_graph']
+			x_data = list(InwardData.objects.values('App__App_name').annotate(x_val=Sum(sel_field)))
+		else:
+			form = compin()
+			sel_field = 'amountINR'
+			x_data = list(InwardData.objects.values('App__App_name').annotate(x_val=Sum(sel_field)))
+	else:
+		form = compin()
+		sel_field = 'amountINR'
+		x_data = list(InwardData.objects.values('App__App_name').annotate(x_val=Sum(sel_field)))
+
+	return render(request,"dashB/compin.html",{"outward":o_apps,"inward":i_apps,"sel_field":sel_field,"x_data":x_data})
 
 def view_data(request):
 	i_apps = Inward.objects.all()
@@ -107,4 +153,3 @@ def view_data(request):
 	outward_data = OutwardData.objects.all().order_by('-Date')
 	inward_data = InwardData.objects.all().order_by('-Date')
 	return render(request,"dashB/viewData.html",{"outward":o_apps,"inward":i_apps,"outward_data":outward_data,"inward_data":inward_data})
-

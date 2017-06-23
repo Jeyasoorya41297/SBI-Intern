@@ -31,6 +31,7 @@
                     {% for app in outward %}
                       <li><a href="/dashb/outward/{{app.Currency}}/{{app.id}}.html/">{{app.Currency}}</a></li>
                     {% endfor %}
+                      <li><a href="/dashb/outward/compout.html/">Currencies Comparison</a></li>
                     </ul>
                   </li>
                   <li><a>Inward<span class="fa fa-chevron-down"></span></a>
@@ -38,6 +39,7 @@
                     {% for app in inward %}
                       <li><a href="/dashb/inward/{{app.App_name}}/{{app.id}}.html/">{{app.App_name}}</a></li>
                     {% endfor %}
+                      <li><a href="/dashb/inward/compin.html/">Inward Applications Comparison</a></li>
                     </ul>                    
                   </li>
                   <li><a href="{% url 'viewData' %}">View Data</a></li>

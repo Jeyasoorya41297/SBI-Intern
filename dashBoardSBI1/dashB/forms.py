@@ -7,3 +7,9 @@ class Ograph(forms.Form):
 
 class Igraph(forms.Form):
 	ch_of_graph = forms.ChoiceField(choices=(('amount','Amount'),('amountINR','Amount in INR'),('GLS_commission','GLS Commission'),('Ex_commission','Exchange Commission'),('Service_tax','Service Tax')))
+
+class compout(forms.Form):
+	ch_of_graph = forms.ChoiceField(choices=(('BeneficiaryAmountINR','Beneficiary Amount in INR'),('commissionAmt','Commission'),('Service_tax','Service Tax')))
+
+class compin(forms.Form):
+	ch_of_graph = forms.ChoiceField(choices=(('amountINR','Amount in INR'),('GLS_commission','GLS Commission'),('Ex_commission','Exchange Commission'),('Service_tax','Service Tax')))
