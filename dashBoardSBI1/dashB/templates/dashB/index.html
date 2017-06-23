@@ -41,23 +41,23 @@
           <div class="row tile_count">
 
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"> Outward Commission(INR)</span>
-              <div class="count">{{list_of_values.0}}</div>
+              <span class="count_top"> Outward Commission</span>
+              <div class="count">&#x20b9;{{list_of_values.0}}</div>
               <span class="count_bottom">{{list_of_values.4|safe}}</span>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top">Outward Amount(INR)</span>
-              <div class="count">{{list_of_values.1}}<small></small></div>
+              <span class="count_top">Outward Amount</span>
+              <div class="count">&#x20b9;{{list_of_values.1}}<small></small></div>
               <span class="count_bottom">{{list_of_values.5|safe}}</span>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top">Inward Commission(INR)</span>
-              <div class="count">{{list_of_values.2}}</div>
+              <span class="count_top">Inward Commission</span>
+              <div class="count">&#x20b9;{{list_of_values.2}}</div>
               <span class="count_bottom">{{list_of_values.6|safe}}</span>
             </div>
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top">Inward Amount(INR)</span>
-              <div class="count">{{list_of_values.3}}</div>
+              <span class="count_top">Inward Amount</span>
+              <div class="count">&#x20b9;{{list_of_values.3}}</div>
               <span class="count_bottom">{{list_of_values.7|safe}}</span>
             </div>
           </div>
@@ -290,7 +290,7 @@ init_flot_chart();
                   xkey: 'period',
                   barColors: ['#26B99A', '#34495E', '#ACADAC', '#3498DB'],
                   ykeys: ['Out', 'In'],
-                  labels: ['Outward', 'Inward'],
+                  labels: ['Outward(&#x20b9;)', 'Inward(&#x20b9;)'],
                   hideHover: 'auto',
                   xLabelAngle: 60,
                   resize: true
