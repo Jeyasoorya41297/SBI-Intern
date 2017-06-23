@@ -68,7 +68,10 @@ def outward_view(request,id):
 		form = Ograph(request.POST)
 		if form.is_valid():
 			sel_field = request.POST['ch_of_graph']
-			x_data = list(OutwardData.objects.filter(curr__id=id).order_by("Date").values("Date",request.POST['ch_of_graph']))
+			in_date=request.POST['in_date']
+			fi_date=request.POST['fi_date']
+
+			x_data = list(OutwardData.objects.filter(curr__id=id,Date__gte=in_date,Date__lte=fi_date).order_by("Date").values("Date",request.POST['ch_of_graph']))
 			print(x_data)
 		else :
 			form = Ograph()
@@ -92,7 +95,9 @@ def inward_view(request,id):
 		form = Igraph(request.POST)
 		if form.is_valid():
 			sel_field = request.POST['ch_of_graph']
-			x_data = list(InwardData.objects.filter(App__id=id).order_by("Date").values("Date",request.POST['ch_of_graph']))
+			in_date=request.POST['in_date']
+			fi_date=request.POST['fi_date']
+			x_data = list(InwardData.objects.filter(App__id=id,Date__gte=in_date,Date__lte=fi_date).order_by("Date").values("Date",request.POST['ch_of_graph']))
 			print(x_data)
 		else :
 			form = Igraph()
@@ -116,7 +121,9 @@ def compOut_view(request) :
 		form = compout(request.POST)
 		if form.is_valid():
 			sel_field = request.POST['ch_of_graph']
-			x_data = list(OutwardData.objects.values('curr__Currency').annotate(x_val=Sum(sel_field)))
+			in_date=request.POST['in_date']
+			fi_date=request.POST['fi_date']
+			x_data = list(OutwardData.objects.filter(Date__gte=in_date,Date__lte=fi_date).values('curr__Currency').annotate(x_val=Sum(sel_field)))
 		else:
 			form = compout()
 			sel_field = 'BeneficiaryAmountINR'
@@ -135,7 +142,9 @@ def compIn_view(request) :
 		form = compin(request.POST)
 		if form.is_valid():
 			sel_field = request.POST['ch_of_graph']
-			x_data = list(InwardData.objects.values('App__App_name').annotate(x_val=Sum(sel_field)))
+			in_date=request.POST['in_date']
+			fi_date=request.POST['fi_date']
+			x_data = list(InwardData.objects.filter(Date__gte=in_date,Date__lte=fi_date).values('App__App_name').annotate(x_val=Sum(sel_field)))
 		else:
 			form = compin()
 			sel_field = 'amountINR'
