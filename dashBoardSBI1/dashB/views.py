@@ -70,7 +70,6 @@ def outward_view(request,name):
 			sel_field = request.POST['ch_of_graph']
 			in_date=request.POST['in_date']
 			fi_date=request.POST['fi_date']
-
 			x_data = list(OutwardData.objects.filter(curr__Currency=name,Date__gte=in_date,Date__lte=fi_date).order_by("Date").values("Date",request.POST['ch_of_graph']))
 			print(x_data)
 		else :
@@ -79,14 +78,17 @@ def outward_view(request,name):
 			x_data = list(OutwardData.objects.filter(curr__Currency=name).order_by("Date").values("Date",'BeneficiaryAmount'))
 			if len(x_data) > 10:
 				x_data = x_data[-10:]
+			in_date = x_data[0]["Date"].strftime("%Y-%m-%d")
+			fi_date = x_data[-1]["Date"].strftime("%Y-%m-%d")
 	else :
 		form = Ograph()
 		sel_field='BeneficiaryAmount'
 		x_data = list(OutwardData.objects.filter(curr__Currency=name).order_by("Date").values("Date",'BeneficiaryAmount'))
 		if len(x_data)>10 :
 			x_data = x_data[-10:]
-	
-	return render(request,"dashB/outward.html",{"outward":o_apps,"inward":i_apps,"data":x_data,"form":form,"curr":selected_curr,"sel_field":sel_field})
+		in_date = x_data[0]["Date"].strftime("%Y-%m-%d")
+		fi_date = x_data[-1]["Date"].strftime("%Y-%m-%d")
+	return render(request,"dashB/outward.html",{"outward":o_apps,"inward":i_apps,"data":x_data,"form":form,"curr":selected_curr,"sel_field":sel_field,"in_date":in_date,"fi_date":fi_date})
 
 @csrf_exempt
 def inward_view(request,name):
@@ -100,22 +102,23 @@ def inward_view(request,name):
 			in_date=request.POST['in_date']
 			fi_date=request.POST['fi_date']
 			x_data = list(InwardData.objects.filter(App__App_name=name,Date__gte=in_date,Date__lte=fi_date).order_by("Date").values("Date",request.POST['ch_of_graph']))
-			print(x_data)
 		else :
 			form = Igraph()
 			sel_field='amountINR'
 			x_data = list(InwardData.objects.filter(App__App_name=name).order_by("Date").values("Date",'amountINR'))
 			if len(x_data) > 10:
 				x_data = x_data[-10:]
-
+			in_date = x_data[0]["Date"].strftime("%Y-%m-%d")
+			fi_date = x_data[-1]["Date"].strftime("%Y-%m-%d")
 	else :
 		form = Igraph()
 		sel_field='amountINR'
 		x_data = list(InwardData.objects.filter(App__App_name=name).order_by("Date").values("Date",'amountINR'))
 		if len(x_data) > 10:
 			x_data = x_data[-10:]
-
-	return render(request,"dashB/inward.html",{"outward":o_apps,"inward":i_apps,"data":x_data,"form":form,"app":selected_app,"sel_field":sel_field})
+		in_date = x_data[0]["Date"].strftime("%Y-%m-%d")
+		fi_date = x_data[-1]["Date"].strftime("%Y-%m-%d")
+	return render(request,"dashB/inward.html",{"outward":o_apps,"inward":i_apps,"data":x_data,"form":form,"app":selected_app,"sel_field":sel_field,"in_date":in_date,"fi_date":fi_date})
 
 @csrf_exempt
 def compOut_view(request) :
@@ -131,16 +134,32 @@ def compOut_view(request) :
 		else:
 			form = compout()
 			sel_field = 'BeneficiaryAmountINR'
+			dates = list(OutwardData.objects.values('Date'))
 			x_data = list(OutwardData.objects.values('curr__Currency').annotate(x_val=Sum(sel_field)))
+			if len(dates) > 10:
+				in_date=dates[-10]["Date"].strftime("%Y-%m-%d")
+				fi_date=dates[-1]["Date"].strftime("%Y-%m-%d")
+			else:
+				in_date=dates[0]["Date"].strftime("%Y-%m-%d")
+				fi_date=dates[-1]["Date"].strftime("%Y-%m-%d")
 			if len(x_data) > 10:
 				x_data = x_data[-10:]
 	else:
 		form = compout()
 		sel_field = 'BeneficiaryAmountINR'
+		dates = list(OutwardData.objects.values('Date'))
 		x_data = list(OutwardData.objects.values('curr__Currency').annotate(x_val=Sum(sel_field)))
+		if len(dates) > 10:
+			in_date=dates[-10]["Date"].strftime("%Y-%m-%d")
+			fi_date=dates[-1]["Date"].strftime("%Y-%m-%d")
+		else:
+			in_date=dates[0]["Date"].strftime("%Y-%m-%d")
+			fi_date=dates[-1]["Date"].strftime("%Y-%m-%d")
 		if len(x_data) > 10:
 			x_data = x_data[-10:]
-	return render(request,"dashB/compout.html",{"outward":o_apps,"inward":i_apps,"sel_field":sel_field,"x_data":x_data})
+
+
+	return render(request,"dashB/compout.html",{"outward":o_apps,"inward":i_apps,"sel_field":sel_field,"x_data":x_data,"in_date":in_date,"fi_date":fi_date})
 
 @csrf_exempt
 def compIn_view(request) :
@@ -156,18 +175,31 @@ def compIn_view(request) :
 		else:
 			form = compin()
 			sel_field = 'amountINR'
+			dates = list(InwardData.objects.values('Date'))
 			x_data = list(InwardData.objects.values('App__App_name').annotate(x_val=Sum(sel_field)))
+			if len(dates) > 10:
+				in_date=dates[-10]["Date"].strftime("%Y-%m-%d")
+				fi_date=dates[-1]["Date"].strftime("%Y-%m-%d")
+			else:
+				in_date=dates[0]["Date"].strftime("%Y-%m-%d")
+				fi_date=dates[-1]["Date"].strftime("%Y-%m-%d")
 			if len(x_data) > 10:
 				x_data = x_data[-10:]
 
 	else:
 		form = compin()
 		sel_field = 'amountINR'
+		dates = list(InwardData.objects.values('Date'))
 		x_data = list(InwardData.objects.values('App__App_name').annotate(x_val=Sum(sel_field)))
+		if len(dates) > 10:
+			in_date=dates[-10]["Date"].strftime("%Y-%m-%d")
+			fi_date=dates[-1]["Date"].strftime("%Y-%m-%d")
+		else:
+			in_date=dates[0]["Date"].strftime("%Y-%m-%d")
+			fi_date=dates[-1]["Date"].strftime("%Y-%m-%d")
 		if len(x_data) > 10 :
 			x_data = x_data[-10:]
-
-	return render(request,"dashB/compin.html",{"outward":o_apps,"inward":i_apps,"sel_field":sel_field,"x_data":x_data})
+	return render(request,"dashB/compin.html",{"outward":o_apps,"inward":i_apps,"sel_field":sel_field,"x_data":x_data,"in_date":in_date,"fi_date":fi_date})
 
 def view_data(request):
 	i_apps = Inward.objects.all()

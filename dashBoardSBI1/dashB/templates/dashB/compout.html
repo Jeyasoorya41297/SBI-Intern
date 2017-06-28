@@ -37,7 +37,7 @@
 
         <!-- page content -->
 <div class="right_col" role="main">
-<h3>GLS Applications</h3>
+<h3>GLS Applications{{in_date|date:"d/m/y"}}</h3>
     <div class="row">
               <!-- bar chart -->
               <form action="" method="post" class="form-horizontal form-label-left input_mask">
@@ -53,9 +53,9 @@
                         </div>
                         <div class="col-md-5 col-sm-3 col-xs-12">
                         <label for="id_in_date">Initial</label>
-                          <input type="date" id="id_in_date" name="in_date">
+                          <input type="date" id="id_in_date" name="in_date" value="{{in_date}}">
                           <label for="id_fi_date">Final</label>
-                          <input type="date" id="id_fi_date" name="fi_date">
+                          <input type="date" id="id_fi_date" name="fi_date" value="{{fi_date}}">
                         </div>
                         <div class="col-md-2 col-sm-2 col-xs-12">
                           <button type="submit" class="btn btn-success">Submit</button>
