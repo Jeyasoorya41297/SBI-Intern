@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Home</title>
+    <title>Outward Remittance {{curr.Currency}}}</title>
 
     <!-- Bootstrap -->
     <link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -41,9 +41,9 @@
     <div class="">
     <div class="row">
               <!-- line graph -->
-              <form action="/dashb/outward/{{curr.Currency}}/{{curr.id}}.html/" method="post" class="form-horizontal form-label-left input_mask">
+              <form action="" method="post" class="form-horizontal form-label-left input_mask">
               <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="id_ch_of_graph">Choose Graph</label>
+                        <label class="control-label col-md-2 col-sm-3 col-xs-12" for="id_ch_of_graph">Choose Graph</label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                           <select id="id_ch_of_graph" name="ch_of_graph" class="form-control">
                             <option value="Nothing">Choose an Option</option>
@@ -53,9 +53,11 @@
                             <option value="Service_tax">Service Tax</option>
                           </select>
                         </div>
-                        <div class="col-md-2 col-sm-3 col-xs-12">
-                          <input type="date" name="in_date">
-                          <input type="date" name="fi_date">
+                        <div class="col-md-5 col-sm-3 col-xs-12">
+                        <label for="id_in_date">Initial</label>
+                          <input type="date" id="id_in_date" name="in_date">
+                          <label for="id_fi_date">Final</label>
+                          <input type="date" id="id_fi_date" name="fi_date">
                         </div>
                         <div class="col-md-2 col-sm-3 col-xs-12">
                           <button type="submit" class="btn btn-success">Submit</button>
@@ -148,7 +150,7 @@
                   element: 'graph_line',
                   xkey: 'month',
                   ykeys: ['value'],
-                  labels: ['{{sel_field}}(&#x20b9;)'],
+                  labels: ['{{sel_field}}'],
                   xLabels : "month",
                   hideHover: 'auto',
                   lineColors: ['#26B99A', '#34495E', '#ACADAC', '#3498DB'],

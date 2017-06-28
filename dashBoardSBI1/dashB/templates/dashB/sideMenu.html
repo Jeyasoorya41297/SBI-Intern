@@ -2,7 +2,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="{% url 'index' %}" class="site_title"><span>DashBoard</span></a>
+              <a href="/dashb/" class="site_title"><span>DashBoard</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -29,20 +29,20 @@
                   <li><a>Outward<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                     {% for app in outward %}
-                      <li><a href="/dashb/outward/{{app.Currency}}/{{app.id}}.html/">{{app.Currency}}</a></li>
+                      <li><a href="/dashb/outward{{app.Currency}}/">{{app.Currency}}</a></li>
                     {% endfor %}
-                      <li><a href="/dashb/outward/compout.html/">Currencies Comparison</a></li>
+                      <li><a href="/dashb/outwardcomp/">Currencies Comparison</a></li>
                     </ul>
                   </li>
                   <li><a>Inward<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                     {% for app in inward %}
-                      <li><a href="/dashb/inward/{{app.App_name}}/{{app.id}}.html/">{{app.App_name}}</a></li>
+                      <li><a href="/dashb/inward{{app.App_name}}/">{{app.App_name}}</a></li>
                     {% endfor %}
-                      <li><a href="/dashb/inward/compin.html/">Inward Applications Comparison</a></li>
+                      <li><a href="/dashb/inwardcomp/">Inward Applications Comparison</a></li>
                     </ul>                    
                   </li>
-                  <li><a href="{% url 'viewData' %}">View Data</a></li>
+                  <li><a href="/dashb/viewdata/">View Data</a></li>
                 </ul>
               </div>
             </div>
