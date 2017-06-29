@@ -24,7 +24,6 @@ def index(request):
 	list_of_values = [o_comm_months[-1]['cAmt'],o_amt_months[-1]['amt'],i_comm_months[-1]['cAmt'],i_amt_months[-1]['amt']]
 
 	if len(o_comm_months) >= 2:
-		#<i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Month
 		if (o_comm_months[-1]['cAmt']-o_comm_months[-2]['cAmt']) >= 0:
 			list_of_values.append("<i class=\"green\"><i class=\"fa fa-sort-asc\"></i> "+str((abs((o_comm_months[-1]['cAmt']-o_comm_months[-2]['cAmt'])/o_comm_months[-2]['cAmt'])*100).quantize(Decimal('.01')))+"%</i> From last Month")
 		else :
@@ -71,7 +70,6 @@ def outward_view(request,name):
 			in_date=request.POST['in_date']
 			fi_date=request.POST['fi_date']
 			x_data = list(OutwardData.objects.filter(curr__Currency=name,Date__gte=in_date,Date__lte=fi_date).order_by("Date").values("Date",request.POST['ch_of_graph']))
-			print(x_data)
 		else :
 			form = Ograph()
 			sel_field='BeneficiaryAmount'
@@ -157,7 +155,6 @@ def compOut_view(request) :
 			fi_date=dates[-1]["Date"].strftime("%Y-%m-%d")
 		if len(x_data) > 10:
 			x_data = x_data[-10:]
-
 
 	return render(request,"dashB/compout.html",{"outward":o_apps,"inward":i_apps,"sel_field":sel_field,"x_data":x_data,"in_date":in_date,"fi_date":fi_date})
 
